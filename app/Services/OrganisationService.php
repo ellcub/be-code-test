@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Mail\OrganisationCreated;
 use App\Organisation;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Class OrganisationService
@@ -25,6 +27,8 @@ class OrganisationService
         $organisation->owner_user_id = auth()->user()->id;
         $organisation->trial_end = Carbon::now()->addDays(30);
         $organisation->save();
+
+        Mail::to(auth()->user())->send(new OrganisationCreated($organisation, auth()->user()));
 
         return $organisation;
     }
