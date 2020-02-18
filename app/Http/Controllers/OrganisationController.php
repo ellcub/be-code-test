@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateOrganisation;
+use App\Http\Requests\CreateOrganisationRequest;
 use App\Organisation;
 use App\Services\OrganisationService;
 use Illuminate\Http\JsonResponse;
@@ -18,10 +18,10 @@ class OrganisationController extends ApiController
     /**
      * @param OrganisationService $service
      *
-     * @param CreateOrganisation $request
+     * @param CreateOrganisationRequest $request
      * @return JsonResponse
      */
-    public function store(OrganisationService $service, CreateOrganisation $request): JsonResponse
+    public function store(OrganisationService $service, CreateOrganisationRequest $request): JsonResponse
     {
         /** @var Organisation $organisation */
         $organisation = $service->createOrganisation($request->all());
