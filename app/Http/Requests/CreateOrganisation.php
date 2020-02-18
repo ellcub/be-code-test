@@ -13,7 +13,7 @@ class CreateOrganisation extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -25,7 +25,6 @@ class CreateOrganisation extends FormRequest
     {
         return [
             'name' => 'required|unique:App\Organisation,name',
-            'owner_user_id' => 'required|exists:users,id'
         ];
     }
 }

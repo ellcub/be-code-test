@@ -22,7 +22,7 @@ class OrganisationService
     {
         $organisation = new Organisation();
         $organisation->name = $attributes['name'];
-        $organisation->owner_user_id = $attributes['owner_user_id'];
+        $organisation->owner_user_id = auth()->user()->id;
         $organisation->trial_end = Carbon::now()->addDays(30);
         $organisation->save();
 

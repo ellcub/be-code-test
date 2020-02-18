@@ -19,7 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('organisation')->group(function () {
-    Route::get('', 'OrganisationController@listAll');
-    Route::post('', 'OrganisationController@store');
-});
+Route::group(
+    ['middleware' => 'auth:api', 'prefix' => 'organisation'],
+    function () {
+        Route::get('', 'OrganisationController@listAll');
+        Route::post('', 'OrganisationController@store');
+    }
+);
