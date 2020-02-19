@@ -41,7 +41,7 @@ class OrganisationService
     /**
      * Get a collection of organisations optionally filtered
      *
-     * Filter is defined in the http query parameter.  Can bee 'subbed', 'trial', 'all' or not there.
+     * Filter is defined in the http query parameter.  Can bee 'subbed', 'trial', 'all' or not provided.
      * The default is 'all'.
      *
      * @param Request $request
@@ -63,7 +63,6 @@ class OrganisationService
                     break;
             }
         }
-
         return $query->get();
     }
 }
