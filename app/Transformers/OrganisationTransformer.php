@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Transformers;
 
 use App\Organisation;
+use Carbon\Carbon;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 
@@ -31,8 +32,16 @@ class OrganisationTransformer extends TransformerAbstract
     public function transform(Organisation $organisation): array
     {
         return [
+            'id' => (int)$organisation->id,
             'name' => $organisation->name,
-            'trail_end' => $organisation->trial_end->timestamp
+            'trail_end' => $organisation->trial_end != null ? Carbon::parse($organisation->trial_end)->timestamp : null,
+            'subscribed' => (bool)$organisation->subscribed,
+            'created_at' => $organisation->created_at != null ? Carbon::parse(
+                $organisation->created_at
+            )->timestamp : null,
+            'updated_at' => $organisation->created_at != null ? Carbon::parse(
+                $organisation->created_at
+            )->timestamp : null
         ];
     }
 

@@ -42,7 +42,7 @@ class OrganisationController extends ApiController
                     $query->where('subscribed', 1);
                     break;
                 case 'trial':
-                    // Assume that trial should on on midnight of the last trial day
+                    // Assume that trial should end on midnight of the last trial day
                     // rather than at whatever time during the day it was created
                     $query->whereDate('trial_end', '>=', Carbon::today()->toDateString());
                     break;
@@ -51,6 +51,8 @@ class OrganisationController extends ApiController
 
         $organisations = $query->get();
 
-        return json_encode($organisations);
+        return $this
+            ->transformCollection('organisations', $organisations, ['user'])
+            ->respond();
     }
 }
