@@ -16,11 +16,11 @@ use League\Fractal\TransformerAbstract;
 class OrganisationTransformer extends TransformerAbstract
 {
     /**
-     * List of resources to automatically include
+     * List of resources possible to include
      *
      * @var array
      */
-    protected $defaultIncludes = [
+    protected $availableIncludes = [
         'user'
     ];
 
