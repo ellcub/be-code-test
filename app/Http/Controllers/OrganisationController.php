@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrganisationRequest;
 use App\Organisation;
 use App\Services\OrganisationService;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -17,6 +16,8 @@ use Illuminate\Http\JsonResponse;
 class OrganisationController extends ApiController
 {
     /**
+     * Endpoint to create a new organisation
+     *
      * @param OrganisationService $service
      *
      * @param CreateOrganisationRequest $request
@@ -32,24 +33,16 @@ class OrganisationController extends ApiController
             ->respond();
     }
 
+    /**
+     * Endpoint to list organisations
+     *
+     * @param OrganisationService $service
+     * @return JsonResponse
+     */
     public function listAll(OrganisationService $service)
     {
-        $query = Organisation::query();
-
-        if ($this->request->has('filter')) {
-            switch ($this->request->input('filter')) {
-                case 'subbed':
-                    $query->where('subscribed', 1);
-                    break;
-                case 'trial':
-                    // Assume that trial should end on midnight of the last trial day
-                    // rather than at whatever time during the day it was created
-                    $query->whereDate('trial_end', '>=', Carbon::today()->toDateString());
-                    break;
-            }
-        }
-
-        $organisations = $query->get();
+        /** @var Organisation $organisation */
+        $organisations = $service->listOrganisations($this->request);
 
         return $this
             ->transformCollection('organisations', $organisations, ['user'])
