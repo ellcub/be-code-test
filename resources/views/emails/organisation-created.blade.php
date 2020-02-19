@@ -1,4 +1,4 @@
-Hi {{ $user->name }},
+Hi {{ $organisation->owner->name }},
 
 Your new organisation {{ $organisation->name }} was created successfully.
 

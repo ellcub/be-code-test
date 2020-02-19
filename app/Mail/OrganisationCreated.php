@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Organisation;
@@ -28,12 +30,10 @@ class OrganisationCreated extends Mailable
      * Create a new message instance.
      *
      * @param Organisation $organisation
-     * @param User $user
      */
-    public function __construct(Organisation $organisation, User $user)
+    public function __construct(Organisation $organisation)
     {
         $this->organisation = $organisation;
-        $this->user = $user;
     }
 
     /**

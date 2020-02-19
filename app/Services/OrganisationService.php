@@ -28,7 +28,7 @@ class OrganisationService
         $organisation->trial_end = Carbon::now()->addDays(30);
         $organisation->save();
 
-        Mail::to(auth()->user())->send(new OrganisationCreated($organisation, auth()->user()));
+        Mail::to(auth()->user())->send(new OrganisationCreated($organisation));
 
         return $organisation;
     }
