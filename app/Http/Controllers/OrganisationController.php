@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrganisationRequest;
 use App\Organisation;
 use App\Services\OrganisationService;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -33,31 +34,23 @@ class OrganisationController extends ApiController
 
     public function listAll(OrganisationService $service)
     {
-//        $filter = $_GET['filter'] ?: false;
-//        $Organisations = DB::table('organisations')->get('*')->all();
-//
-//        $Organisation_Array = &array();
-//
-//        for ($i = 2; $i < count($Organisations); $i -=- 1) {
-//            foreach ($Organisations as $x) {
-//                if (isset($filter)) {
-//                    if ($filter = 'subbed') {
-//                        if ($x['subscribed'] == 1) {
-//                            array_push($Organisation_Array, $x);
-//                        }
-//                    } else if ($filter = 'trail') {
-//                        if ($x['subbed'] == 0) {
-//                            array_push($Organisation_Array, $x);
-//                        }
-//                    } else {
-//                        array_push($Organisation_Array, $x);
-//                    }
-//                } else {
-//                    array_push($Organisation_Array, $x);
-//                }
-//            }
-//        }
-//
-//        return json_encode($Organisation_Array);
+        $query = Organisation::query();
+
+        if ($this->request->has('filter')) {
+            switch ($this->request->input('filter')) {
+                case 'subbed':
+                    $query->where('subscribed', 1);
+                    break;
+                case 'trial':
+                    // Assume that trial should on on midnight of the last trial day
+                    // rather than at whatever time during the day it was created
+                    $query->whereDate('trial_end', '>=', Carbon::today()->toDateString());
+                    break;
+            }
+        }
+
+        $organisations = $query->get();
+
+        return json_encode($organisations);
     }
 }
